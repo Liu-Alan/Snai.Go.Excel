@@ -2,6 +2,9 @@ package utils
 
 import (
 	"fmt"
+	"math/rand"
+	"strconv"
+	"time"
 
 	"github.com/tealeg/xlsx"
 
@@ -76,7 +79,7 @@ func ExcelRead(path string) []entities.Order {
 
 func ExcelCreate(orders []entities.Order) bool {
 	if len(orders) <= 0 {
-		return false
+		return false, "没有数据"
 	}
 
 	var file *xlsx.File
@@ -88,7 +91,7 @@ func ExcelCreate(orders []entities.Order) bool {
 	file = xlsx.NewFile()
 	sheet, err = file.AddSheet("Sheet1")
 	if err != nil {
-		fmt.Printf("create failed:%s\n", err)
+		fmt.Printf("open failed:%s\n", err)
 		return false
 	}
 
@@ -96,6 +99,94 @@ func ExcelCreate(orders []entities.Order) bool {
 	row.SetHeightCM(1)
 	cell = row.AddCell()
 	cell.Value = "JOB NO"
+	cell = row.AddCell()
+	cell.Value = "QTY"
+	cell = row.AddCell()
+	cell.Value = "Item Code"
+	cell = row.AddCell()
+	cell.Value = "MM/YY"
+	cell = row.AddCell()
+	cell.Value = "Stock"
+	cell = row.AddCell()
+	cell.Value = "Type"
+	cell = row.AddCell()
+	cell.Value = "Sub"
+	cell = row.AddCell()
+	cell.Value = "Lot"
+	cell = row.AddCell()
+	cell.Value = "Line"
+	cell = row.AddCell()
+	cell.Value = "Size Code"
+	cell = row.AddCell()
+	cell.Value = "Description"
+	cell = row.AddCell()
+	cell.Value = "Brand Type"
+	cell = row.AddCell()
+	cell.Value = "Color"
+	cell = row.AddCell()
+	cell.Value = "Size"
+	cell = row.AddCell()
+	cell.Value = "Cat/Sku"
+	cell = row.AddCell()
+	cell.Value = "Product ID/Style# "
+	cell = row.AddCell()
+	cell.Value = "UPC"
+	cell = row.AddCell()
+	cell.Value = "128c"
+	cell = row.AddCell()
+	cell.Value = "Misc1"
+	cell = row.AddCell()
+	cell.Value = "Misc2"
+	cell = row.AddCell()
+	cell.Value = "2 or More"
+	cell = row.AddCell()
+	cell.Value = "Retail"
+	cell = row.AddCell()
+	cell.Value = "EPC Start"
+	cell = row.AddCell()
+	cell.Value = "EPC End"
+	cell = row.AddCell()
+	cell.Value = "Customer PO"
+	cell = row.AddCell()
+	cell.Value = "Country Of Origin"
+	cell = row.AddCell()
+	cell.Value = "Supplier #"
+	cell = row.AddCell()
+	cell.Value = "Location "
+	cell = row.AddCell()
+	cell.Value = "Location Code"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue1"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue2"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue3"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue4"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue5"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue6"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue7"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue8"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue9"
+	cell = row.AddCell()
+	cell.Value = "SpecialValue10"
 
+	for _, value := range orderList {
+
+	}
+
+	r := rand.New(rand.NewSource(time.Now().Unix()))
+	xlsxName := "order" + (time.Now().Format("2006-01-02")) + strconv.Itoa(r.Intn(100)) + ".xlsx"
+
+	err = file.Save(xlsxName)
+	if err != nil {
+		fmt.Printf("open failed:%s\n", err)
+		return false
+	}
 	return true
 }
