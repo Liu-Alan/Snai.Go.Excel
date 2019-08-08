@@ -30,10 +30,14 @@ func main() {
 		}
 	}
 
-	fmt.Printf("len:%d", len(orderList))
 	if len(orderList) > 0 {
-		for _, value := range orderList {
-			fmt.Printf("JobNo:%s,Qyt:%s", value.JobNo, value.Qyt)
+		result := utils.ExcelCreate(dirPath, orderList)
+		if result {
+			fmt.Println("处理完成！")
+		} else {
+			fmt.Println("处理失败！")
 		}
+	} else {
+		fmt.Println("excel中没有合适数据!")
 	}
 }

@@ -11,9 +11,9 @@ import (
 	"Snai.Go.Excel/entities"
 )
 
-func ExcelRead(path string) []entities.Order {
+func ExcelRead(dirPath string) []entities.Order {
 	var orderList []entities.Order
-	fileName := path
+	fileName := dirPath
 	xlFile, err := xlsx.OpenFile(fileName)
 	if err != nil {
 		fmt.Printf("open failed:%s\n", err)
@@ -77,9 +77,10 @@ func ExcelRead(path string) []entities.Order {
 	return orderList
 }
 
-func ExcelCreate(orders []entities.Order) bool {
+func ExcelCreate(dirPath string, orders []entities.Order) bool {
 	if len(orders) <= 0 {
-		return false, "没有数据"
+		fmt.Printf("not data")
+		return false
 	}
 
 	var file *xlsx.File
@@ -91,7 +92,7 @@ func ExcelCreate(orders []entities.Order) bool {
 	file = xlsx.NewFile()
 	sheet, err = file.AddSheet("Sheet1")
 	if err != nil {
-		fmt.Printf("open failed:%s\n", err)
+		fmt.Printf("addsheet failed:%s\n", err)
 		return false
 	}
 
@@ -152,6 +153,8 @@ func ExcelCreate(orders []entities.Order) bool {
 	cell = row.AddCell()
 	cell.Value = "Supplier #"
 	cell = row.AddCell()
+	cell.Value = "status"
+	cell = row.AddCell()
 	cell.Value = "Location "
 	cell = row.AddCell()
 	cell.Value = "Location Code"
@@ -176,17 +179,99 @@ func ExcelCreate(orders []entities.Order) bool {
 	cell = row.AddCell()
 	cell.Value = "SpecialValue10"
 
-	for _, value := range orderList {
-
+	for _, order := range orders {
+		row = sheet.AddRow()
+		row.SetHeightCM(1)
+		cell = row.AddCell()
+		cell.Value = order.JobNo
+		cell = row.AddCell()
+		cell.Value = order.Qyt
+		cell = row.AddCell()
+		cell.Value = order.ItemCode
+		cell = row.AddCell()
+		cell.Value = order.MMYY
+		cell = row.AddCell()
+		cell.Value = order.Stock
+		cell = row.AddCell()
+		cell.Value = order.Type
+		cell = row.AddCell()
+		cell.Value = order.Sub
+		cell = row.AddCell()
+		cell.Value = order.Lot
+		cell = row.AddCell()
+		cell.Value = order.Line
+		cell = row.AddCell()
+		cell.Value = order.SizeCode
+		cell = row.AddCell()
+		cell.Value = order.Description
+		cell = row.AddCell()
+		cell.Value = order.BrandType
+		cell = row.AddCell()
+		cell.Value = order.Color
+		cell = row.AddCell()
+		cell.Value = order.Size
+		cell = row.AddCell()
+		cell.Value = order.CatSku
+		cell = row.AddCell()
+		cell.Value = order.ProductIDStyle
+		cell = row.AddCell()
+		cell.Value = order.UPC
+		cell = row.AddCell()
+		cell.Value = order.C128
+		cell = row.AddCell()
+		cell.Value = order.Misc1
+		cell = row.AddCell()
+		cell.Value = order.Misc2
+		cell = row.AddCell()
+		cell.Value = order.MoreOr2
+		cell = row.AddCell()
+		cell.Value = order.Retail
+		cell = row.AddCell()
+		cell.Value = order.EPCStart
+		cell = row.AddCell()
+		cell.Value = order.EPCEnd
+		cell = row.AddCell()
+		cell.Value = order.CustomerPO
+		cell = row.AddCell()
+		cell.Value = order.CountryOfOrigin
+		cell = row.AddCell()
+		cell.Value = order.Supplier
+		cell = row.AddCell()
+		cell.Value = order.Status
+		cell = row.AddCell()
+		cell.Value = order.Location
+		cell = row.AddCell()
+		cell.Value = order.LocationCode
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue1
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue2
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue3
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue4
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue5
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue6
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue7
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue8
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue9
+		cell = row.AddCell()
+		cell.Value = order.SpecialValue10
 	}
 
 	r := rand.New(rand.NewSource(time.Now().Unix()))
-	xlsxName := "order" + (time.Now().Format("2006-01-02")) + strconv.Itoa(r.Intn(100)) + ".xlsx"
+	xlsxName := dirPath + "/" + "order" + (time.Now().Format("2006-01-02")) + "-" + strconv.Itoa(r.Intn(100)) + ".xlsx"
 
 	err = file.Save(xlsxName)
 	if err != nil {
-		fmt.Printf("open failed:%s\n", err)
+		fmt.Printf("save failed:%s\n", err)
 		return false
 	}
+
 	return true
 }
