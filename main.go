@@ -19,7 +19,7 @@ func main() {
 
 	var orderList []entities.Order
 	for _, file := range files {
-		if strings.Index(file.Name(), ".xlsx") < 0 {
+		if !strings.HasSuffix(file.Name(), ".xlsx") {
 			continue
 		}
 

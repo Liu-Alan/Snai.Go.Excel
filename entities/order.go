@@ -2,7 +2,9 @@ package entities
 
 type Order struct {
 	JobNo           string
-	Qyt             string
+	OrderQty        string
+	OverageQty      string
+	TotalQty        string
 	ItemCode        string
 	MMYY            string
 	Stock           string
